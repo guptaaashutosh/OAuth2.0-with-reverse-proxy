@@ -1,0 +1,5 @@
+/vendor
+# /.env
+/.env.example
+/.gitignore
+/.vscode

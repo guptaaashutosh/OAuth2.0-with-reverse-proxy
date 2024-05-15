@@ -1,0 +1,95 @@
+{
+    "log": {
+      "level": "debug",
+      "format": "json"
+    },
+    "serve": {
+      "proxy": {
+        "cors": {
+          "enabled": true,
+          "allowed_origins": [
+            "http://127.0.0.1:3001"
+          ],
+          "allowed_methods": [
+            "POST",
+            "GET",
+            "PUT",
+            "PATCH",
+            "DELETE"
+          ],
+          "allowed_headers": [
+            "Authorization",
+            "Content-Type"
+          ],
+          "exposed_headers": [
+            "Content-Type"
+          ],
+          "allow_credentials": true,
+          "debug": true
+        }
+      }
+    },
+    "errors": {
+      "fallback": [
+        "json"
+      ],
+      "handlers": {
+        "json": {
+          "enabled": true,
+          "config": {
+            "verbose": true
+          }
+        }
+      }
+    },
+    "access_rules": {
+      "matching_strategy": "regexp",
+      "repositories": [
+        "file:///C:/Users/ZTI/go/src/tutorials/hydra_oathkeeper/OAuth2_With_reverse_proxy_workflow/oathkeeper/rules.json"
+      ]
+    },
+    "authenticators": {
+      "oauth2_introspection": {
+        "enabled": true,
+        "config": {
+          "introspection_url": "http://localhost:4445/oauth2/introspect",
+          "scope_strategy": "exact",
+          "pre_authorization": {
+            "enabled": false,
+            "client_id": "democlient",
+            "client_secret": "demosecret",
+            "scope": [
+              "offline"
+            ],
+            "token_url": "http://localhost:4445/oauth2/token"
+          },
+          "token_from": {
+            "header": "token"
+          },
+          "introspection_request_headers": {
+            "x-forwarded-proto": "http"
+          },
+          "retry": {
+            "max_delay": "300ms",
+            "give_up_after": "2s"
+          }
+        }
+      }
+    },
+    "authorizers": {
+      "allow": {
+        "enabled": true
+      }
+    },
+    "mutators": {
+        "header": {
+          "enabled": true,
+          "config": {
+            "headers": {
+              "auth-user": "{{ print .Subject }}",
+              "auth-permission": "{{ print .Extra.permission }}"
+            }
+          }
+        }
+      }
+  }
