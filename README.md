@@ -55,6 +55,8 @@ This video guides you through the process of obtaining access tokens in Hydra, a
 - How login and consent forms interact with user authentication.
 - Practical applications of access tokens for secure API communication.
 
+<br>
+
 https://github.com/guptaaashutosh/OAuth2.0-with-reverse-proxy/assets/83817233/ea387c73-ef1c-4445-979a-ba565af3681c
 
 
