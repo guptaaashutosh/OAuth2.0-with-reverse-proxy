@@ -39,6 +39,13 @@ The demo implements a basic authorization code flow:
 
 ![Workflow diagram](/oathkeeper-hydra(OAuth2.0)%20workflow%20cprt.svg)
 
+<br>
+
+<video id="myVideo" width="640" height="480" controls>
+  <source src="https://drive.google.com/file/d/1HljckgaHh2eSUHdwobijeE5ErtYk547F/view?usp=sharing" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 <br><br>
 
 
