@@ -6,27 +6,8 @@ This Project showcases how your Go server acts as a single point for both Hydra 
 - Go Server: This server combines functionalities of Ory Hydra and Ory Oathkeeper written in Go. (Provided in this repository)
 - Resource Server: A simple resource server that provides protected data (simulated in this demo).
 
-## Workflow
-The demo implements a basic authorization code flow:
-
-1. **User Access Request**: The user tries to access a protected resource through a client application.
-2. **Redirect to Login**: The client application redirects the user to your Go server's login endpoint.
-3. **User Login**: The user logs in with their credentials on your Go server (acting as Hydra).
-4. **Consent Screen**: Your Go server (acting as Hydra) presents the user with a consent screen detailing the permissions requested by the client application. The user grants or denies access.
-5. **Authorization Code**: If consent is granted, your Go server (acting as Hydra) sends an authorization code back to the client application's redirect URI.
-6. **Token Request**: The client application sends the authorization code and its client credentials to your Go server (acting as Hydra) to request an access token.
-7. **Access Token Grant**: Your Go server (acting as Hydra) verifies the request and issues an access token.
-8. **Access Resource**: The client application includes the access token in its request to the Resource Server.
-9. **Validation**: Your Go server (acting as Oathkeeper) intercepts the request, validates the access token with its internal logic (connected to Hydra for verification), and enforces any additional authorization rules (not implemented in this basic demo).
-10. **Resource Access Granted**: If valid, your Go server allows the request to reach the Resource Server, which returns the protected resource (simulated data in this demo).
-
-<br><br>
-
-![Workflow diagram](/oathkeeper-hydra(OAuth2.0)%20workflow%20cprt.svg)
-
-<br><br>
-
 ## Table of Contents
+- Workflow
 - Overview of OAuth2
 - Prerequisites
 - Project Structure
@@ -38,6 +19,27 @@ The demo implements a basic authorization code flow:
 - Frontend Application
 - Troubleshooting
 
+<br>
+
+## Workflow
+The demo implements a basic authorization code flow:
+
+1. **User Access Request:**  The user tries to access a protected resource through a client application.
+2. **Redirect to Login:**  The client application redirects the user to your Go server's login endpoint.
+3. **User Login:**  The user logs in with their credentials on your Go server (acting as Hydra).
+4. **Consent Screen:**  Your Go server (acting as Hydra) presents the user with a consent screen detailing the permissions requested by the client application. The user grants or denies access.
+5. **Authorization Code:**  If consent is granted, your Go server (acting as Hydra) sends an authorization code back to the client application's redirect URI.
+6. **Token Request:**  The client application sends the authorization code and its client credentials to your Go server (acting as Hydra) to request an access token.
+7. **Access Token Grant:**  Your Go server (acting as Hydra) verifies the request and issues an access token.
+8. **Access Resource:**  The client application includes the access token in its request to the Resource Server.
+9. **Validation:**  Your Go server (acting as Oathkeeper) intercepts the request, validates the access token with its internal logic (connected to Hydra for verification), and enforces any additional authorization rules (not implemented in this basic demo).
+10. **Resource Access Granted:**  If valid, your Go server allows the request to reach the Resource Server, which returns the protected resource (simulated data in this demo).
+
+<br><br>
+
+![Workflow diagram](/oathkeeper-hydra(OAuth2.0)%20workflow%20cprt.svg)
+
+<br><br>
 
 
 ## Overview of OAuth2
