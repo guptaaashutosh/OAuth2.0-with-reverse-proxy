@@ -41,10 +41,23 @@ The demo implements a basic authorization code flow:
 
 <br>
 
-<video id="myVideo" width="640" height="480" controls>
-  <source src="https://drive.google.com/file/d/1HljckgaHh2eSUHdwobijeE5ErtYk547F/view?usp=sharing" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+## Video Demonstration
+This video guides you through the process of obtaining access tokens in Hydra, an authorization server framework.
+
+- **Exchange Code Flow:** Witness how an authorization code is exchanged for an access token.
+- **Login and Consent Forms:** Explore the user interaction during login and consent for authorization requests.
+- **Utilizing Access Tokens:** Discover how to leverage the acquired access tokens for secured API access.
+
+### By the end of this video, you'll gain a comprehensive understanding of:
+
+- The flow of obtaining access tokens using Hydra.
+- The significance of the exchange code and its role in authorization.
+- How login and consent forms interact with user authentication.
+- Practical applications of access tokens for secure API communication.
+
+https://github.com/guptaaashutosh/OAuth2.0-with-reverse-proxy/assets/83817233/ea387c73-ef1c-4445-979a-ba565af3681c
+
+
 
 <br><br>
 
