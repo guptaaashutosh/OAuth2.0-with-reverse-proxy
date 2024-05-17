@@ -205,5 +205,5 @@ This project provides a starting point for secure OAuth2.0 authorization in your
 This readme provides a foundation for using your Go server with integrated Hydra and Oathkeeper functionalities. Remember to update the instructions on how to access the login endpoint and tailor the testing steps based on your specific implementation.
 <br><br>
 
-**For any questions or feedback, feel free to reach out to me:** [Aashutosh Gupta](https://www.linkedin.com/in/aashutosh-gupta-06a8b7210/)
+**For any questions or feedback, feel free to reach out to me:** <a href="https://www.linkedin.com/in/aashutosh-gupta-06a8b7210/" target="_blank">Aashutosh Gupta</a>
 
