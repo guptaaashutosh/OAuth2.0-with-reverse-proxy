@@ -108,7 +108,6 @@ func Create(c *gin.Context) {
 		panic(err)
 	}
 
-
 	tx, err := DB.Begin(c)
 	if err != nil {
 		// return err
@@ -175,7 +174,6 @@ func AssignNewServiceToUser(c *gin.Context) {
 	})
 }
 
-
 func Delete(c *gin.Context) {
 	DB := setup.ConnectDB()
 	repos := repo.UserRepo(DB)
@@ -202,7 +200,6 @@ func Delete(c *gin.Context) {
 		"delete-response-database ": "deleted from database",
 	})
 }
-
 
 func Update(c *gin.Context) {
 	DB := setup.ConnectDB()
@@ -267,7 +264,6 @@ func RefreshToken(c *gin.Context) {
 	})
 }
 
-
 // HydraPublicPortCall
 func HydraPublicPortCall(c *gin.Context) {
 	clientId := "democlient" // Replace with your client ID
@@ -299,7 +295,6 @@ func HydraPublicPortCall(c *gin.Context) {
 	// 	"encodedUrl": encodedUrl,
 	// })
 }
-
 
 func (h Handler) AuthGetLogin(c *gin.Context) {
 
@@ -625,14 +620,14 @@ func (h Handler) HydraTokenEndpoint(c *gin.Context) {
 	c.SetCookie("refresh_token", tokenResp.RefreshToken, 3600, "/", "localhost", false, true)
 
 	// for ui flow redirect
-	redirectURL := "http://localhost:3000/callbacks" + "?access_token=" + tokenResp.AccessToken + "&refresh_token=" + tokenResp.RefreshToken + "&token_type=" + tokenResp.TokenType + "&expires_in=" + tokenResp.Expiry.String()
-	c.Redirect(http.StatusFound, redirectURL)
+	// redirectURL := "http://localhost:3000/callbacks" + "?access_token=" + tokenResp.AccessToken + "&refresh_token=" + tokenResp.RefreshToken + "&token_type=" + tokenResp.TokenType + "&expires_in=" + tokenResp.Expiry.String()
+	// c.Redirect(http.StatusFound, redirectURL)
 
 	// for api test purpose
-	// c.JSON(http.StatusOK, gin.H{
-	// 	"message":   "successfully new token generated",
-	// 	"tokenResp": tokenResp,
-	// })
+	c.JSON(http.StatusOK, gin.H{
+		"message":   "successfully new token generated",
+		"tokenResp": tokenResp,
+	})
 
 }
 
@@ -679,14 +674,21 @@ func (h Handler) HydraIntroSpectEndpoint(c *gin.Context) {
 	})
 }
 
-// Test
-func Test(c *gin.Context) {
+// Protect Test
+func ProtectTest(c *gin.Context) {
 	auth_user := c.Request.Header.Get("auth-user")
 	auth_permission := c.Request.Header.Get("auth-permission")
 	c.JSON(http.StatusOK, gin.H{
 		"message":                           "successfully authenticated and authorized by oathkeeper",
 		"auth-user-set-by-oathkeeper":       auth_user,
 		"auth-permission-set-by-oathkeeper": auth_permission,
+	})
+}
+
+// public test
+func PublicTest(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "This is response from public api which is not protected by oathkeeper",
 	})
 }
 

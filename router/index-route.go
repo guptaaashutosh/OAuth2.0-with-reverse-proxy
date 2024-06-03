@@ -62,7 +62,8 @@ func IndexRoute(route *gin.Engine) {
 	route.POST("/introspect", Hydracontroller.HydraIntroSpectEndpoint)
 
 	
-	route.GET("/test", controller.Test)
+	route.GET("/protect/test", controller.ProtectTest)
+	route.GET("/public/test", controller.PublicTest)
 	// --------- hydra end ----------------
 
 

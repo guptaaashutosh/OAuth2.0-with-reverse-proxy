@@ -3,10 +3,11 @@
       "id": "api:protected",
       "upstream": {
         "preserve_host": true,
-        "url": "http://127.0.0.1:8000"
+        "url": "http://127.0.0.1:8000",
+        "strip_path": "/api/v1"
       },
       "match": {
-        "url": "http://127.0.0.1:4455/<.*>",
+        "url": "http://127.0.0.1:4455/protect/<.*>",
         "methods": [
           "GET",
           "POST",
@@ -31,5 +32,36 @@
       "errors": [{
         "handler": "json"
       }]
+    },
+    {
+      "id": "api:public",
+      "upstream": {
+        "preserve_host": true,
+        "url": "http://127.0.0.1:8000"
+      },
+      "match": {
+        "url": "http://127.0.0.1:4455/public/<.*>",
+        "methods": [
+          "GET",
+          "POST"
+        ]
+      },
+      "authenticators": [{
+        "handler": "anonymous",
+        "config": {
+          "subject": "guest"
+        }
+      }],
+      "authorizer": {
+        "handler": "allow"
+      },
+      "errors": [
+        { "handler": "json" } 
+      ],
+      "mutators": [
+        {
+          "handler": "noop"
+        }
+      ]
     }
   ]
