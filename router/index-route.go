@@ -4,23 +4,12 @@ import (
 	"learn/httpserver/controller"
 	"learn/httpserver/utils"
 	"net/url"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	// "learn/httpserver/controller"
 	hydra "github.com/ory/hydra-client-go/client"
 )
-
-var (
-	adminURL, _ = url.Parse("http://localhost:4445")
-	hydraClient = hydra.NewHTTPClientWithConfig(nil,
-		&hydra.TransportConfig{
-			Schemes:  []string{adminURL.Scheme},
-			Host:     adminURL.Host,
-			BasePath: adminURL.Path,
-		},
-	)
-)
-
 
 func IndexRoute(route *gin.Engine) {
 
@@ -45,8 +34,16 @@ func IndexRoute(route *gin.Engine) {
 	route.POST("/new-service", controller.AssignNewServiceToUser)
 	// --------- to accesss this route, you need to pass the hydra token in the header ----------------
 
-
 	// --------- hydra start ----------------
+
+	adminURL, _ := url.Parse(os.Getenv("HYDRA_ADMIN_URL"))
+	hydraClient := hydra.NewHTTPClientWithConfig(nil,
+		&hydra.TransportConfig{
+			Schemes:  []string{adminURL.Scheme},
+			Host:     adminURL.Host,
+			BasePath: adminURL.Path,
+		},
+	)
 
 	Hydracontroller := controller.Handler{
 		HydraAdmin: hydraClient.Admin,
@@ -61,11 +58,8 @@ func IndexRoute(route *gin.Engine) {
 	route.POST("/oauth2/token", Hydracontroller.HydraTokenEndpoint)
 	route.POST("/introspect", Hydracontroller.HydraIntroSpectEndpoint)
 
-	
 	route.GET("/protect/test", controller.ProtectTest)
 	route.GET("/public/test", controller.PublicTest)
 	// --------- hydra end ----------------
-
-
 
 }
