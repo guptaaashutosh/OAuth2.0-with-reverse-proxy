@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"strconv"
 	"time"
 
@@ -266,12 +267,12 @@ func RefreshToken(c *gin.Context) {
 
 // HydraPublicPortCall
 func HydraPublicPortCall(c *gin.Context) {
-	clientId := "democlient" // Replace with your client ID
-	redirectURI := "http://localhost:3000/callbacks"
-	scope := "offline"
-	state := "2n4tr5iorREJY4849479z0JucIo4guU7rx1qZLT4mTc=" // Replace with a secure random state
+	clientId := os.Getenv("HYDRA_CLIENT_ID") // Replace with your client ID
+	redirectURI := os.Getenv("REDIRECT_URL")
+	scope := os.Getenv("HYDRA_SCOPE")
+	state := os.Getenv("HYDRA_STATE") // Replace with a secure random state
+	oauthUrl := os.Getenv("HYDRA_AUTH_URL")
 
-	oauthUrl := "http://localhost:4444/oauth2/auth"
 	params := url.Values{
 		"client_id":     {clientId},
 		"client_secret": {"demosecret"},
@@ -360,7 +361,9 @@ func (h Handler) AuthGetLogin(c *gin.Context) {
 		return
 	}
 
-	redirectURL := "http://localhost:3000/login" + "?login_challenge=" + login_challenge
+	loginURL := os.Getenv("CLIENT_LOGIN_URL")
+
+	redirectURL := loginURL + "?login_challenge=" + login_challenge
 	c.Redirect(http.StatusFound, redirectURL)
 }
 
@@ -490,7 +493,7 @@ func (h Handler) AuthGetConsent(c *gin.Context) {
 	fmt.Println("consentMessage: ", consentMessage)
 
 	// Redirect user to hydra consent endpoint
-	redirectURL := "http://localhost:3000/consent" + "?consent_challenge=" + consent_challenge
+	redirectURL := os.Getenv("CLIENT_CONSENT_URL") + "?consent_challenge=" + consent_challenge + "&scope=" + consentGetResp.GetPayload().Client.Scope + "&appName" + consentGetResp.GetPayload().Client.ClientName
 	c.Redirect(http.StatusFound, redirectURL)
 }
 
@@ -560,23 +563,26 @@ func (h Handler) AuthPostConsent(c *gin.Context) {
 }
 
 // ----------------- token endpoint ----------------------------
-// Endpoint is OAuth 2.0 endpoint.
-var Endpoint = oauth2.Endpoint{
-	AuthURL:  "http://localhost:4444/oauth2/auth",
-	TokenURL: "http://localhost:4444/oauth2/token",
-}
-
-// Scopes: OAuth 2.0 scopes provide a way to limit the amount of access that is granted to an access token.
-var OAuthConf = &oauth2.Config{
-	RedirectURL:  "http://localhost:3000/callbacks",
-	ClientID:     "democlient",
-	ClientSecret: "demosecret",
-	Scopes:       []string{"users.write", "users.read", "users.edit", "users.delete", "offline"},
-	Endpoint:     Endpoint,
-}
 
 // HydraTokenEndpoint
 func (h Handler) HydraTokenEndpoint(c *gin.Context) {
+	// Endpoint is OAuth 2.0 endpoint.
+	 Endpoint := oauth2.Endpoint{
+		AuthURL:  os.Getenv("HYDRA_AUTH_URL"),
+		TokenURL: os.Getenv("HYDRA_TOKEN_URL"),
+	}
+
+	 redirect_uri := os.Getenv("REDIRECT_URL")
+
+	// Scopes: OAuth 2.0 scopes provide a way to limit the amount of access that is granted to an access token.
+	  OAuthConf := &oauth2.Config{
+		RedirectURL:  redirect_uri,
+		ClientID:     "democlient",
+		ClientSecret: "demosecret",
+		Scopes:       []string{"users.write", "users.read", "users.edit", "users.delete", "offline"},
+		Endpoint:     Endpoint,
+	}
+
 	code := c.PostForm("code")
 	refreshToken := c.PostForm("refresh_token")
 	// if refresh token is available then generate new token
@@ -616,18 +622,18 @@ func (h Handler) HydraTokenEndpoint(c *gin.Context) {
 	fmt.Println("tokenResp from token endpoint: ", tokenResp)
 
 	//set in cookie
-	c.SetCookie("access_token", tokenResp.AccessToken, 3600, "/", "localhost", false, true)
-	c.SetCookie("refresh_token", tokenResp.RefreshToken, 3600, "/", "localhost", false, true)
+	// c.SetCookie("access_token", tokenResp.AccessToken, 3600, "/", "localhost", false, true)
+	// c.SetCookie("refresh_token", tokenResp.RefreshToken, 3600, "/", "localhost", false, true)
 
 	// for ui flow redirect
-	// redirectURL := "http://localhost:3000/callbacks" + "?access_token=" + tokenResp.AccessToken + "&refresh_token=" + tokenResp.RefreshToken + "&token_type=" + tokenResp.TokenType + "&expires_in=" + tokenResp.Expiry.String()
-	// c.Redirect(http.StatusFound, redirectURL)
+	redirectURL := os.Getenv("REDIRECT_URL") + "?access_token=" + tokenResp.AccessToken + "&refresh_token=" + tokenResp.RefreshToken + "&token_type=" + tokenResp.TokenType + "&expires_in=" + tokenResp.Expiry.String()
+	c.Redirect(http.StatusFound, redirectURL)
 
 	// for api test purpose
-	c.JSON(http.StatusOK, gin.H{
-		"message":   "successfully new token generated",
-		"tokenResp": tokenResp,
-	})
+	// c.JSON(http.StatusOK, gin.H{
+	// 	"message":   "successfully new token generated",
+	// 	"tokenResp": tokenResp,
+	// })
 
 }
 
