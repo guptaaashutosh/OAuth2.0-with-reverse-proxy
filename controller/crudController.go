@@ -574,11 +574,14 @@ func (h Handler) HydraTokenEndpoint(c *gin.Context) {
 
 	 redirect_uri := os.Getenv("REDIRECT_URL")
 
+	 hydra_client_id := os.Getenv("HYDRA_CLIENT_ID")
+	 hydra_client_secret := os.Getenv("HYDRA_CLIENT_SECRET")
+
 	// Scopes: OAuth 2.0 scopes provide a way to limit the amount of access that is granted to an access token.
 	  OAuthConf := &oauth2.Config{
 		RedirectURL:  redirect_uri,
-		ClientID:     "democlient",
-		ClientSecret: "demosecret",
+		ClientID:     hydra_client_id,
+		ClientSecret: hydra_client_secret,
 		Scopes:       []string{"users.write", "users.read", "users.edit", "users.delete", "offline"},
 		Endpoint:     Endpoint,
 	}

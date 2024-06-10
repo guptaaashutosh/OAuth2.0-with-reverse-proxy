@@ -2,7 +2,7 @@ version: '3'
 
 services:
   hydra-migrate:
-    image: oryd/hydra:v1.9.0
+    image: oryd/hydra:v2.2.0
     restart: on-failure
     networks:
       - hydra-network-demo
@@ -14,7 +14,7 @@ services:
       - postgresd
 
   hydra:
-    image: oryd/hydra:v1.9.0
+    image: oryd/hydra:v2.2.0
     restart: on-failure
     networks:
       - hydra-network-demo
@@ -23,7 +23,7 @@ services:
       - "4445:4445" # Admin port
       - "5555:5555" # Port for hydra token user, testing purpose only
     command:
-      serve all --dangerous-force-http
+      serve all --dev
     environment:
       # https://www.ory.sh/hydra/docs/reference/configuration
       # https://github.com/ory/hydra/blob/aeecfe1c8f/test/e2e/docker-compose.yml
