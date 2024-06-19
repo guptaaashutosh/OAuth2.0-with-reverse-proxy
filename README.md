@@ -116,7 +116,7 @@ Hydra is an open-source OAuth2 and OpenID Connect server that implements the Aut
 
 ### Hydra Installation : 
 1.	Installation: download from [Install Hydra](https://github.com/ory/hydra/releases)
-2.	Unzip and put the file of unzip folder in GOPATH. (C:\Users\ZTI\go\bin)
+2.	Unzip and put the file of unzip folder in GOPATH. (C:\Users\user\go\bin)
 3.	Run `hydra` in terminal.
 
 
@@ -130,7 +130,7 @@ Oathkeeper is a reverse proxy and identity-aware proxy that integrates with Hydr
 
 ### OathKeeper Installation : 
 1.	Installation: download from [Install OathKeeper](https://github.com/ory/oathkeeper/releases)   or [official docs](https://www.ory.sh/docs/oathkeeper/install)
-2.	Unzip and put the file of unzip folder in GOPATH. (C:\Users\ZTI\go\bin)
+2.	Unzip and put the file of unzip folder in GOPATH. (C:\Users\user\go\bin)
 3.	Run `oathkeeper` in terminal.
 
 
